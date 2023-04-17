@@ -1,11 +1,11 @@
 const cacheName = "time-track";
 const filesToCache = [
-    "./",
-    "./index.html",
-    "./global.css",
-    "./themes.css",
-    "./build/bundle.css",
-    "./build/bundle.js",
+    "/nonogram/",
+    "/nonogram/index.html",
+    "/nonogram/global.css",
+    "/nonogram/themes.css",
+    "/nonogram/build/bundle.css",
+    "/nonogram/build/bundle.js",
 ];
 
 self.addEventListener("install", (event) => {
