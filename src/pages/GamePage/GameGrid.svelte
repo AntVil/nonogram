@@ -1,6 +1,8 @@
 <script>
     import { movesStore } from "../../store/gameStore";
 
+    export let filling;
+
     let container;
 
     let mouseIsDown = false;
@@ -24,23 +26,29 @@
         return [x, y];
     }
 
-    function toggleGrid(x, y) {
+    function updateGrid(x, y) {
         if (x === -1 || y === -1) {
             return;
         }
 
+        let value = filling ? 1 : 2;
+
         if (currentlyFilling === undefined) {
             if ($movesStore[y][x] === 0) {
-                $movesStore[y][x] = 1;
+                $movesStore[y][x] = value;
                 currentlyFilling = true;
-            } else {
+            } else if(value === $movesStore[y][x]) {
                 $movesStore[y][x] = 0;
                 currentlyFilling = false;
             }
         } else if (currentlyFilling) {
-            $movesStore[y][x] = 1;
+            if($movesStore[y][x] === 0){
+                $movesStore[y][x] = value;
+            }
         } else {
-            $movesStore[y][x] = 0;
+            if($movesStore[y][x] === value){
+                $movesStore[y][x] = 0;
+            }
         }
     }
 
@@ -48,7 +56,7 @@
         mouseIsDown = true;
 
         let [x, y] = getIndices(e);
-        toggleGrid(x, y);
+        updateGrid(x, y);
     }
 
     function mousemove(e) {
@@ -57,7 +65,7 @@
         }
 
         let [x, y] = getIndices(e);
-        toggleGrid(x, y);
+        updateGrid(x, y);
     }
 
     function mouseup() {
@@ -113,20 +121,38 @@
         gap: 1px;
     }
 
-    div:first-child {
-        border-top: 1px solid var(--theme-color-2);
+    div {
+        border-top: 1px solid var(--theme-color-0);
+        border-bottom: 1px solid var(--theme-color-0);
+    }
+
+    span {
+        border-left: 1px solid var(--theme-color-0);
+        border-right: 1px solid var(--theme-color-0);
     }
 
     div:nth-child(5n) {
         border-bottom: 1px solid var(--theme-color-2);
     }
 
-    span:first-child {
-        border-left: 1px solid var(--theme-color-2);
+    div:nth-child(5n+1) {
+        border-top: 1px solid var(--theme-color-2);
     }
 
     span:nth-child(5n) {
         border-right: 1px solid var(--theme-color-2);
+    }
+
+    span:nth-child(5n+1) {
+        border-left: 1px solid var(--theme-color-2);
+    }
+
+    div:last-child{
+        border-bottom: 1px solid var(--theme-color-0);
+    }
+
+    span:last-child{
+        border-right: 1px solid var(--theme-color-0);
     }
 
     .filled {
@@ -134,6 +160,8 @@
     }
 
     .cross {
-        background-color: var(--theme-color-2);
+        background-color: var(--theme-color-3);
+        mask-image: url("../images/icons/cross.svg");
+        -webkit-mask-image: url("../images/icons/cross.svg");
     }
 </style>
