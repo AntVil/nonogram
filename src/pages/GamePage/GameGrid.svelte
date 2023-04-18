@@ -5,8 +5,11 @@
 
     let container;
 
+    let previousX = undefined;
+    let previousY = undefined;
     let mouseIsDown = false;
     let currentlyFilling = undefined;
+    let axisMode = undefined;
 
     function getIndices(e) {
         e = e.touches?.[0] || e;
@@ -31,23 +34,43 @@
             return;
         }
 
+        if(axisMode === undefined){
+            if(previousX === x && previousY !== y){
+                axisMode = 0;
+            }else if(previousX !== x && previousY === y){
+                axisMode = 1;
+            }
+        }else if(axisMode === 0){
+            x = previousX;
+        }else{
+            y = previousY;
+        }
+
         let value = filling ? 1 : 2;
 
         if (currentlyFilling === undefined) {
             if ($movesStore[y][x] === 0) {
                 $movesStore[y][x] = value;
                 currentlyFilling = true;
+                previousX = x;
+                previousY = y;
             } else if(value === $movesStore[y][x]) {
                 $movesStore[y][x] = 0;
                 currentlyFilling = false;
+                previousX = x;
+                previousY = y;
             }
         } else if (currentlyFilling) {
             if($movesStore[y][x] === 0){
                 $movesStore[y][x] = value;
+                previousX = x;
+                previousY = y;
             }
         } else {
             if($movesStore[y][x] === value){
                 $movesStore[y][x] = 0;
+                previousX = x;
+                previousY = y;
             }
         }
     }
@@ -71,6 +94,9 @@
     function mouseup() {
         mouseIsDown = false;
         currentlyFilling = undefined;
+        previousX = undefined;
+        previousY = undefined;
+        axisMode = undefined;
     }
 </script>
 
