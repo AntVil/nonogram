@@ -105,6 +105,9 @@
     div {
         display: grid;
         grid-auto-flow: column;
+        gap: 1px;
+        border-top: 1px solid var(--theme-color-0);
+        border-bottom: 1px solid var(--theme-color-0);
     }
 
     span {
@@ -115,51 +118,27 @@
         height: min(4.5vw, 3.5vh);
         overflow: hidden;
         user-select: none;
-    }
-
-    div {
-        gap: 1px;
-    }
-
-    div {
-        border-top: 1px solid var(--theme-color-0);
-        border-bottom: 1px solid var(--theme-color-0);
-    }
-
-    span {
         border-left: 1px solid var(--theme-color-0);
         border-right: 1px solid var(--theme-color-0);
     }
 
-    div:nth-child(5n) {
-        border-bottom: 1px solid var(--theme-color-2);
+    div:nth-child(5n) { border-bottom: 1px solid var(--theme-color-2); }
+    div:nth-child(5n+1) { border-top: 1px solid var(--theme-color-2); }
+    span:nth-child(5n) { border-right: 1px solid var(--theme-color-2); }
+    span:nth-child(5n+1) { border-left: 1px solid var(--theme-color-2); }
+
+    span::after{
+        content: "";
+        display: block;
+        width: 100%;
+        height: 100%;
     }
 
-    div:nth-child(5n+1) {
-        border-top: 1px solid var(--theme-color-2);
-    }
-
-    span:nth-child(5n) {
-        border-right: 1px solid var(--theme-color-2);
-    }
-
-    span:nth-child(5n+1) {
-        border-left: 1px solid var(--theme-color-2);
-    }
-
-    div:last-child{
-        border-bottom: 1px solid var(--theme-color-0);
-    }
-
-    span:last-child{
-        border-right: 1px solid var(--theme-color-0);
-    }
-
-    .filled {
+    .filled::after {
         background-color: var(--theme-color-3);
     }
 
-    .cross {
+    .cross::after {
         background-color: var(--theme-color-3);
         mask-image: url("../images/icons/cross.svg");
         -webkit-mask-image: url("../images/icons/cross.svg");
