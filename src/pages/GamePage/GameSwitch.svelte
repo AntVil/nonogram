@@ -3,12 +3,22 @@
 </script>
 
 <div>
-    <button class={filling ? "selected" : ""} on:click={() => {filling = true}}></button>
-    <button class={filling ? "" : "selected"} on:click={() => {filling = false}}></button>
+    <button
+        class={filling ? "selected" : ""}
+        on:click={() => {
+            filling = true;
+        }}
+    />
+    <button
+        class={filling ? "" : "selected"}
+        on:click={() => {
+            filling = false;
+        }}
+    />
 </div>
 
 <style>
-    div{
+    div {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 5px;
@@ -18,7 +28,7 @@
         border-radius: 5px;
     }
 
-    button{
+    button {
         width: calc(1.5 * min(4.5vw, 3.5vh));
         height: calc(1.5 * min(4.5vw, 3.5vh));
         background-color: transparent;
@@ -26,7 +36,7 @@
         border-radius: 5px;
     }
 
-    button::after{
+    button::after {
         content: "";
         display: block;
         width: 100%;
@@ -34,17 +44,24 @@
         background-color: var(--theme-color-3);
     }
 
-    button:first-child::after{
+    button:first-child::after {
         mask-image: url("../images/icons/block.svg");
         -webkit-mask-image: url("../images/icons/block.svg");
     }
 
-    button:last-child::after{
+    button:last-child::after {
         mask-image: url("../images/icons/cross.svg");
         -webkit-mask-image: url("../images/icons/cross.svg");
     }
 
-    .selected{
+    .selected {
         background-color: var(--theme-color-2);
+    }
+
+    @media (hover: hover) {
+        button:hover {
+            cursor: pointer;
+            background-color: var(--theme-color-2);
+        }
     }
 </style>

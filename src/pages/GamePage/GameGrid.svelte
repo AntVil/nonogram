@@ -34,15 +34,15 @@
             return;
         }
 
-        if(axisMode === undefined){
-            if(previousX === x && previousY !== y){
+        if (axisMode === undefined) {
+            if (previousX === x && previousY !== y) {
                 axisMode = 0;
-            }else if(previousX !== x && previousY === y){
+            } else if (previousX !== x && previousY === y) {
                 axisMode = 1;
             }
-        }else if(axisMode === 0){
+        } else if (axisMode === 0) {
             x = previousX;
-        }else{
+        } else {
             y = previousY;
         }
 
@@ -54,20 +54,20 @@
                 currentlyFilling = true;
                 previousX = x;
                 previousY = y;
-            } else if(value === $movesStore[y][x]) {
+            } else if (value === $movesStore[y][x]) {
                 $movesStore[y][x] = 0;
                 currentlyFilling = false;
                 previousX = x;
                 previousY = y;
             }
         } else if (currentlyFilling) {
-            if($movesStore[y][x] === 0){
+            if ($movesStore[y][x] === 0) {
                 $movesStore[y][x] = value;
                 previousX = x;
                 previousY = y;
             }
         } else {
-            if($movesStore[y][x] === value){
+            if ($movesStore[y][x] === value) {
                 $movesStore[y][x] = 0;
                 previousX = x;
                 previousY = y;
@@ -148,12 +148,20 @@
         border-right: 1px solid var(--theme-color-0);
     }
 
-    div:nth-child(5n) { border-bottom: 1px solid var(--theme-color-2); }
-    div:nth-child(5n+1) { border-top: 1px solid var(--theme-color-2); }
-    span:nth-child(5n) { border-right: 1px solid var(--theme-color-2); }
-    span:nth-child(5n+1) { border-left: 1px solid var(--theme-color-2); }
+    div:nth-child(5n) {
+        border-bottom: 1px solid var(--theme-color-2);
+    }
+    div:nth-child(5n + 1) {
+        border-top: 1px solid var(--theme-color-2);
+    }
+    span:nth-child(5n) {
+        border-right: 1px solid var(--theme-color-2);
+    }
+    span:nth-child(5n + 1) {
+        border-left: 1px solid var(--theme-color-2);
+    }
 
-    span::after{
+    span::after {
         content: "";
         display: block;
         width: 100%;
@@ -168,5 +176,11 @@
         background-color: var(--theme-color-3);
         mask-image: url("../images/icons/cross.svg");
         -webkit-mask-image: url("../images/icons/cross.svg");
+    }
+
+    @media (hover: hover) {
+        section:hover {
+            cursor: pointer;
+        }
     }
 </style>

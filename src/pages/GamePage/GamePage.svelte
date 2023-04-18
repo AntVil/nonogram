@@ -1,11 +1,14 @@
 <script>
     import GameContainer from "./GameContainer.svelte";
     import GameSwitch from "./GameSwitch.svelte";
+    import HomeButton from "./HomeButton.svelte";
 
     let filling;
 </script>
 
 <main>
+    <HomeButton />
+
     <GameContainer {filling} />
 
     <GameSwitch bind:filling />
