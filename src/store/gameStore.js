@@ -58,13 +58,13 @@ export const generateNew = size => {
     localStorage.setItem("nonogramGame", compressGrid(grid, 2));
 }
 
-export const gameColumnsStore = derived(gameStore, ($gameStore) => () => {
+function calcColumnNumbers(grid) {
     let columns = [];
-    for (let x = 0; x < $gameStore.length; x++) {
+    for (let x = 0; x < grid.length; x++) {
         let column = [];
         let item = 0;
-        for (let y = 0; y < $gameStore.length; y++) {
-            if ($gameStore[y][x] !== 0) {
+        for (let y = 0; y < grid.length; y++) {
+            if (grid[y][x] === 1) {
                 item++;
             } else if (item !== 0) {
                 column.push(item);
@@ -83,33 +83,80 @@ export const gameColumnsStore = derived(gameStore, ($gameStore) => () => {
         columns.push(column);
     }
 
-    return columns
-});
+    return columns;
+}
 
-export const gameRowsStore = derived(gameStore, ($gameStore) => () => {
+function calcRowNumbers(grid) {
     let rows = [];
-    for (let y = 0; y < $gameStore.length; y++) {
-        let row = [];
+    for (let y = 0; y < grid.length; y++) {
+        let gameRow = [];
         let item = 0;
-        for (let x = 0; x < $gameStore.length; x++) {
-            if ($gameStore[y][x] !== 0) {
+        for (let x = 0; x < grid.length; x++) {
+            if (grid[y][x] === 1) {
                 item++;
             } else if (item !== 0) {
-                row.push(item);
+                gameRow.push(item);
                 item = 0;
             }
         }
 
         if (item !== 0) {
-            row.push(item);
+            gameRow.push(item);
         }
 
-        if (row.length === 0) {
-            row.push(0);
+        if (gameRow.length === 0) {
+            gameRow.push(0);
         }
 
-        rows.push(row);
+        rows.push(gameRow);
     }
 
-    return rows
+    return rows;
+}
+
+function arrayEqual(arr1, arr2) {
+    if (arr1.length !== arr2.length) {
+        return false;
+    }
+
+    for (let i = 0; i < arr1.length; i++) {
+        if (arr1[i] !== arr2[i]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+export const gameColumnsStore = derived([gameStore, movesStore], ([$gameStore, $movesStore]) => () => {
+    let gameColumns = calcColumnNumbers($gameStore);
+    let movesColumns = calcColumnNumbers($movesStore);
+
+    let result = [];
+    for (let i = 0; i < gameColumns.length; i++) {
+        result.push(
+            {
+                "values": gameColumns[i],
+                "complete": arrayEqual(gameColumns[i], movesColumns[i])
+            }
+        )
+    }
+
+    return result;
+});
+
+export const gameRowsStore = derived([gameStore, movesStore], ([$gameStore, $movesStore]) => () => {
+    let gameRows = calcRowNumbers($gameStore);
+    let movesRows = calcRowNumbers($movesStore);
+
+    let result = [];
+    for (let i = 0; i < gameRows.length; i++) {
+        result.push(
+            {
+                "values": gameRows[i],
+                "complete": arrayEqual(gameRows[i], movesRows[i])
+            }
+        )
+    }
+
+    return result;
 });

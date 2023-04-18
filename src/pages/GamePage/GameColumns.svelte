@@ -4,8 +4,8 @@
 
 <section>
     {#each $gameRowsStore() as row}
-        <div>
-            {#each row as col}
+        <div class={row.complete ? "complete" : ""}>
+            {#each row.values as col}
                 <span>{col}</span>
             {/each}
         </div>
@@ -31,5 +31,9 @@
         width: min(4.5vw, 3.5vh);
         height: min(4.5vw, 3.5vh);
         overflow: hidden;
+    }
+
+    .complete {
+        opacity: 0.35;
     }
 </style>
