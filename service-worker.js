@@ -6,6 +6,9 @@ const filesToCache = [
     "/nonogram/themes.css",
     "/nonogram/build/bundle.css",
     "/nonogram/build/bundle.js",
+    "/nonogram/images/icons/back.svg",
+    "/nonogram/images/icons/block.svg",
+    "/nonogram/images/icons/cross.svg",
 ];
 
 self.addEventListener("install", (event) => {
