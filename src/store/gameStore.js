@@ -1,8 +1,13 @@
 import { writable, derived } from "svelte/store";
 import { decompressGrid, compressGrid, arrayEqual, calcColumnNumbers, calcRowNumbers } from "./gameUtil";
 
-export const gameStore = writable(decompressGrid(localStorage.getItem("nonogramGame"), 2));
+let gameGrid = decompressGrid(localStorage.getItem("nonogramGame"), 2)
+
+export const gameStore = writable(gameGrid);
 export const movesStore = writable(decompressGrid(localStorage.getItem("nonogramMoves"), 3));
+
+let gameColumns = calcColumnNumbers(gameGrid);
+let gameRows = calcRowNumbers(gameGrid);
 
 movesStore.subscribe(grid => {
     localStorage.setItem("nonogramMoves", compressGrid(grid, 3));
@@ -17,6 +22,8 @@ export const generateNew = size => {
         }
         grid.push(row);
     }
+    gameColumns = calcColumnNumbers(grid);
+    gameRows = calcRowNumbers(grid);
     gameStore.set(grid);
 
     movesStore.set(grid.map(row => row.map(_ => 0)));
@@ -24,8 +31,7 @@ export const generateNew = size => {
     localStorage.setItem("nonogramGame", compressGrid(grid, 2));
 }
 
-export const gameColumnsStore = derived([gameStore, movesStore], ([$gameStore, $movesStore]) => () => {
-    let gameColumns = calcColumnNumbers($gameStore);
+export const gameColumnsStore = derived(movesStore, $movesStore => () => {
     let movesColumns = calcColumnNumbers($movesStore);
 
     let result = [];
@@ -41,8 +47,7 @@ export const gameColumnsStore = derived([gameStore, movesStore], ([$gameStore, $
     return result;
 });
 
-export const gameRowsStore = derived([gameStore, movesStore], ([$gameStore, $movesStore]) => () => {
-    let gameRows = calcRowNumbers($gameStore);
+export const gameRowsStore = derived(movesStore, $movesStore => () => {
     let movesRows = calcRowNumbers($movesStore);
 
     let result = [];
