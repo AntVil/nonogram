@@ -1,7 +1,7 @@
 <script>
     import GameContainer from "./GameContainer.svelte";
     import GameSwitch from "./GameSwitch.svelte";
-    import HomeButton from "./HomeButton.svelte";
+    import HomeButton from "../pageComponents/HomeButton.svelte";
 
     let filling;
 </script>
